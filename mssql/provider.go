@@ -1,6 +1,7 @@
 package mssql
 
 import (
+	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	"time"
@@ -8,7 +9,6 @@ import (
 	"database/sql"
 	"context"
 	"log"
-	"fmt"
 	"errors"
 )
 
@@ -113,14 +113,14 @@ func resourceArmMsSqlUserCreate(d *schema.ResourceData, meta interface{}) error 
 		log.Print("Not Connected!\n")
 		log.Fatal(err.Error())
 	}
-	fmt.Printf("Connected!\n")
+	log.Print("Connected!\n")
 	// Create employee
 	createID, err := CreateEmployee(db, "Jake", "United States")
 	if err != nil {
 		log.Fatal("Error creating Employee: ", err.Error())
 		return err
 	}
-	fmt.Printf("Inserted ID: %d successfully.\n", createID)
+	log.Print("Inserted ID: %d successfully.\n", createID)
 	d.Set("ID",createID)
 	return nil
 }
@@ -134,14 +134,14 @@ func resourceArmMsSqlUserUpdate(d *schema.ResourceData, meta interface{}) error 
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	fmt.Printf("Connected!\n")
+	log.Print("Connected!\n")
 	// Create employee
 	createID, err := UpdateEmployee(db,"Jake", "United States")
 	if err != nil {
 		log.Fatal("Error creating Employee: ", err.Error())
 		return err
 	}
-	fmt.Printf("Inserted ID: %d successfully.\n", createID)
+	log.Print("Inserted ID: %d successfully.\n", createID)
 	d.Set("ID",createID)
 	return nil
 }
@@ -154,7 +154,7 @@ func resourceArmMsSqlUserDelete(d *schema.ResourceData, meta interface{}) error 
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	fmt.Printf("Connected!\n")
+	log.Print("Connected!\n")
 	// Delete employee
 	_, err = DeleteEmployee(db, "Jake", "United States")
 	return err
@@ -169,7 +169,7 @@ func resourceArmMsSqlUserRead(d *schema.ResourceData, meta interface{}) error {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	fmt.Printf("Connected!\n")
+	log.Print("Connected!\n")
 	// Read employees
 	id, err := ReadEmployees(db,"Jake", "United States")
 	if err != nil || id == -1 {
@@ -178,7 +178,7 @@ func resourceArmMsSqlUserRead(d *schema.ResourceData, meta interface{}) error {
 		return err
 	}
 
-	fmt.Printf("Read employee with id %d successfully.\n", id)
+	log.Print("Read employee with id %d successfully.\n", id)
 	d.Set("ID",id)
 	return nil
 }
@@ -280,7 +280,7 @@ func ReadEmployees(db *sql.DB, name string, location string) (int, error) {
 		if err != nil {
 			return -1, err
 		}
-		fmt.Printf("ID: %d, Name: %s, Location: %s\n", dbId, name, location)
+		log.Print("ID: %d, Name: %s, Location: %s\n", dbId, name, location)
 		id = dbId
 		break
 	}
