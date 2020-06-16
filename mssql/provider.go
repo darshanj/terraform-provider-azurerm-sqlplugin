@@ -121,7 +121,8 @@ func resourceArmMsSqlUserCreate(d *schema.ResourceData, meta interface{}) error 
 		return err
 	}
 	log.Print("Inserted ID: %d successfully.\n", createID)
-	d.Set("ID",createID)
+	//r := resourceArmMsSqlUserRead(d,meta)
+	d.SetId(string(createID))
 	return nil
 }
 
@@ -142,7 +143,7 @@ func resourceArmMsSqlUserUpdate(d *schema.ResourceData, meta interface{}) error 
 		return err
 	}
 	log.Print("Inserted ID: %d successfully.\n", createID)
-	d.Set("ID",createID)
+	d.SetId(string(createID))
 	return nil
 }
 func resourceArmMsSqlUserDelete(d *schema.ResourceData, meta interface{}) error {
@@ -179,7 +180,7 @@ func resourceArmMsSqlUserRead(d *schema.ResourceData, meta interface{}) error {
 	}
 
 	log.Print("Read employee with id %d successfully.\n", id)
-	d.Set("ID",id)
+	d.SetId(string(id))
 	return nil
 }
 
@@ -257,7 +258,7 @@ func ReadEmployees(db *sql.DB, name string, location string) (int, error) {
 	}
 
 
-	tsql := "SELECT Id, Name, Location FROM TestSchema.Employees WHERE Name == @Name AND Location = @Location;"
+	tsql := "SELECT Id, Name, Location FROM TestSchema.Employees WHERE Name = @Name AND Location = @Location;"
 
 	// Execute query
 	rows, err := db.QueryContext(ctx, tsql,
@@ -298,7 +299,7 @@ func UpdateEmployee(db *sql.DB, name string, location string) (int64, error) {
 		return -1, err
 	}
 
-	tsql := fmt.Sprintf("UPDATE TestSchema.Employees SET Location = @Location WHERE Name = @Name")
+	tsql := fmt.Sprintf("UPDATE TestSchema.Employees SET Location = @Location WHERE Name = @Name AND Location = @Location;")
 
 	// Execute non-query with named parameters
 	result, err := db.ExecContext(
