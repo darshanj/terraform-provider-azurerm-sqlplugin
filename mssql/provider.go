@@ -46,7 +46,7 @@ func Provider() terraform.ResourceProvider {
 func resourceArmMsSqlUser() *schema.Resource {
 	return &schema.Resource{
 		Create: resourceArmMsSqlUserCreateUpdate,
-		Read:   resourceArmMsSqlDatabaseRead,
+		Read:   resourceArmMsSqlUserRead,
 		Update: resourceArmMsSqlUserCreateUpdate,
 		Delete: resourceArmMsSqlUserDelete,
 		//Importer: azSchema.ValidateResourceIDPriorToImport(func(id string) error {
@@ -115,6 +115,6 @@ func resourceArmMsSqlUserDelete(d *schema.ResourceData, meta interface{}) error 
 	return nil
 }
 
-func resourceArmMsSqlDatabaseRead(d *schema.ResourceData, meta interface{}) error {
+func resourceArmMsSqlUserRead(d *schema.ResourceData, meta interface{}) error {
 	return nil
 }
