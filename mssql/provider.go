@@ -16,7 +16,7 @@ func Provider() terraform.ResourceProvider {
 	dataSources := make(map[string]*schema.Resource)
 
 	resources := map[string]*schema.Resource{
-		"azurerm_mssql_employee": resourceArmMsSqlUser(),
+		"sqlplugin_mssql_employee": resourceArmMsSqlUser(),
 	}
 
 	p := &schema.Provider{
@@ -81,14 +81,13 @@ func resourceArmMsSqlUser() *schema.Resource {
 
 func providerConfigure(p *schema.Provider) schema.ConfigureFunc {
 	return func(d *schema.ResourceData) (interface{}, error) {
-		user := d.Get("admin_user")
-		password := d.Get("admin_password")
-		database := d.Get("database_name")
-		server := d.Get("server")
-		port := d.Get("port")
+		//user := d.Get("admin_user")
+		//password := d.Get("admin_password")
+		//database := d.Get("database_name")
+		//server := d.Get("server")
+		//port := d.Get("port")
 		// Build connection string
-		connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;",
-			server, user, password, port, database)
+		connString := "server=localhost;user id=sa;password=yourStrong(!)Password1;port=1433;database=tempdb;"
 
 		var err error
 
@@ -98,6 +97,8 @@ func providerConfigure(p *schema.Provider) schema.ConfigureFunc {
 			log.Fatal("Error creating connection pool: ", err.Error())
 			return nil,err
 		}
+		log.Print(fmt.Sprintf("Connection opened with %s!\n",connString))
+
 		return db,nil
 	}
 }
@@ -109,6 +110,7 @@ func resourceArmMsSqlUserCreate(d *schema.ResourceData, meta interface{}) error 
 	ctx := context.Background()
 	err = db.PingContext(ctx)
 	if err != nil {
+		log.Print("Not Connected!\n")
 		log.Fatal(err.Error())
 	}
 	fmt.Printf("Connected!\n")

@@ -1,2 +1,2 @@
-# terraform-provider-azurerm-sqlplugin
+# terraform-provider-sqlplugin
 SQL plugin our azure

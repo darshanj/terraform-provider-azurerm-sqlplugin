@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/darshanj/terraform-provider-azurerm-sqlplugin/mssql"
+	"github.com/darshanj/terraform-provider-sqlplugin/mssql"
 	"github.com/hashicorp/terraform-plugin-sdk/plugin"
 )
 

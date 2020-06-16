@@ -1,4 +1,4 @@
-resource "azurerm_mssql_employee" "d" {
+resource "sqlplugin_mssql_employee" "d" {
   admin_user = "sa"
   admin_password = "yourStrong(!)Password1"
   server = "localhost"
