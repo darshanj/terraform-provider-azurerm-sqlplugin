@@ -7,3 +7,5 @@ services:
       SA_PASSWORD: 'yourStrong(!)Password1'
     ports:
       - 1433:1433
+    volumes:
+      - ./scripts:/tmp/scripts
